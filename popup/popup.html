@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+    body {
+        width: 280px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #2d3436;
+        color: #dfe6e9;
+        padding: 15px;
+        margin: 0;
+    }
+
+    h4 {
+        text-align: center;
+        margin: 0 0 15px 0;
+        color: #00cec9;
+        font-weight: 500;
+        letter-spacing: 1px;
+    }
+
+    .info-container {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .info-label {
+        font-weight: bold;
+        text-align: right;
+        color: #636e72;
+        font-size: 13px;
+    }
+
+    .info-value {
+        font-family: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
+        word-wrap: break-word;
+        background-color: #636e72;
+        color: #dfe6e9;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 13px;
+    }
+
+    .separator {
+        grid-column: 1 / -1;
+        height: 1px;
+        background-color: #636e72;
+        border: none;
+        margin: 5px 0;
+    }
+
+    .true-value {
+        color: #55efc4;
+        font-weight: bold;
+    }
+
+    .false-value {
+        color: #fab1a0;
+        font-weight: bold;
+    }
+
+    .button-container {
+        text-align: center;
+        margin-top: 15px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #refresh-button {
+        background-color: #00cec9;
+        color: #2d3436;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.2s;
+    }
+
+    #refresh-button:hover {
+        background-color: #81ecec;
+    }
+
+    #refresh-button:disabled {
+        background-color: #636e72;
+        cursor: not-allowed;
+    }
+
+    .loader {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #00cec9;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    </style>
+</head>
+<body>
+    <h4>Connection Details</h4>
+    <div class="info-container">
+        <span class="info-label">IP Address:</span>
+        <span id="ip" class="info-value">...</span>
+
+        <span class="info-label">Organization:</span>
+        <span id="company" class="info-value">...</span>
+
+        <span class="info-label">Country:</span>
+        <span id="country" class="info-value">...</span>
+
+        <hr class="separator" />
+
+        <span class="info-label">VPN:</span>
+        <span id="is_vpn" class="info-value">...</span>
+
+        <span class="info-label">Proxy:</span>
+        <span id="is_proxy" class="info-value">...</span>
+
+        <span class="info-label">Tor:</span>
+        <span id="is_tor" class="info-value">...</span>
+    </div>
+
+    <div class="button-container">
+        <button id="refresh-button">更新</button>
+        <div id="loader" class="loader" style="display: none;"></div>
+    </div>
+
+<script src="popup.js"></script>
+</body>
+</html>

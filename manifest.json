@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "IP Info Viewer",
+  "version": "1.0",
+  "description": "IPアドレスの国、組織、接続タイプ（VPN/Tor/Proxy）を表示します。",
+  "icons": {
+    "48": "icons/icon-48.png"
+  },
+  "action": {
+    "default_icon": "icons/icon-48.png",
+    "default_title": "IP詳細情報を表示",
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+    "storage",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://api.ipapi.is/"
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "ip-alert@example.com"
+    }
+  }
+}
