@@ -24,9 +24,9 @@ function updateIcon(is_vpn, is_proxy, is_tor) {
   const canvas = new OffscreenCanvas(48, 48);
   const ctx = canvas.getContext('2d');
 
-  const vpnColor = typeof is_vpn === 'boolean' ? (is_vpn ? SAFE_COLOR : DANGER_COLOR) : UNKNOWN_COLOR;
-  const proxyColor = typeof is_proxy === 'boolean' ? (is_proxy ? SAFE_COLOR : DANGER_COLOR) : UNKNOWN_COLOR;
-  const torColor = typeof is_tor === 'boolean' ? (is_tor ? SAFE_COLOR : DANGER_COLOR) : UNKNOWN_COLOR;
+  const vpnColor = typeof is_vpn === 'boolean' ? (is_vpn ? DANGER_COLOR : SAFE_COLOR) : UNKNOWN_COLOR;
+  const proxyColor = typeof is_proxy === 'boolean' ? (is_proxy ? DANGER_COLOR : SAFE_COLOR) : UNKNOWN_COLOR;
+  const torColor = typeof is_tor === 'boolean' ? (is_tor ? DANGER_COLOR : SAFE_COLOR) : UNKNOWN_COLOR;
   
   ctx.fillStyle = vpnColor;
   ctx.fillRect(0, 0, 16, 48);
@@ -42,32 +42,16 @@ function updateIcon(is_vpn, is_proxy, is_tor) {
 }
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.alarms.clearAll();
   fetchAndUpdate();
-  chrome.alarms.create('main-cycle', {
-    delayInMinutes: 0.5,
-    periodInMinutes: 0.5,
+  chrome.alarms.create('update-ip-info', {
+    delayInMinutes: 3/2,
+    periodInMinutes: 3/2,
   });
 });
 
-chrome.alarms.onAlarm.addListener(async (alarm) => {
-  if (alarm.name === 'main-cycle') {
-    await fetchAndUpdate();
-    chrome.storage.local.set({ burstCount: 1 });
-    chrome.alarms.create('burst-update', {
-      delayInMinutes: 10 / 60,
-      periodInMinutes: 10 / 60,
-    });
-  } else if (alarm.name === 'burst-update') {
-    const { burstCount = 1 } = await chrome.storage.local.get('burstCount');
-    if (burstCount < 2) {
-      await fetchAndUpdate();
-      chrome.storage.local.set({ burstCount: burstCount + 1 });
-    } else {
-      await fetchAndUpdate();
-      chrome.storage.local.remove('burstCount');
-      chrome.alarms.clear('burst-update');
-    }
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name === 'update-ip-info') {
+    fetchAndUpdate();
   }
 });
 
